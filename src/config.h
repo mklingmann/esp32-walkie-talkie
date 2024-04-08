@@ -3,8 +3,8 @@
 #include <driver/gpio.h>
 
 // WiFi credentials
-#define WIFI_SSID << YOUR_SSID >>
-#define WIFI_PSWD << YOUR_PASSWORD >>
+//#define WIFI_SSID << YOUR_SSID >>
+//#define WIFI_PSWD << YOUR_PASSWORD >>
 
 // sample rate for the system
 #define SAMPLE_RATE 16000
@@ -16,25 +16,50 @@
 
 // Which channel is the I2S microphone on? I2S_CHANNEL_FMT_ONLY_LEFT or I2S_CHANNEL_FMT_ONLY_RIGHT
 // Generally they will default to LEFT - but you may need to attach the L/R pin to GND
-#define I2S_MIC_CHANNEL I2S_CHANNEL_FMT_ONLY_LEFT
-// #define I2S_MIC_CHANNEL I2S_CHANNEL_FMT_ONLY_RIGHT
-#define I2S_MIC_SERIAL_CLOCK GPIO_NUM_18
-#define I2S_MIC_LEFT_RIGHT_CLOCK GPIO_NUM_19
-#define I2S_MIC_SERIAL_DATA GPIO_NUM_21
 
-// Analog Microphone Settings - ADC1_CHANNEL_7 is GPIO35
-#define ADC_MIC_CHANNEL ADC1_CHANNEL_7
+#ifdef USE_LOLIN_PINOUT
+    #define I2S_MIC_CHANNEL I2S_CHANNEL_FMT_ONLY_LEFT
+    // #define I2S_MIC_CHANNEL I2S_CHANNEL_FMT_ONLY_RIGHT
+    #define I2S_MIC_SERIAL_CLOCK GPIO_NUM_18
+    #define I2S_MIC_LEFT_RIGHT_CLOCK GPIO_NUM_23
+    #define I2S_MIC_SERIAL_DATA GPIO_NUM_13
 
-// speaker settings
-#define USE_I2S_SPEAKER_OUTPUT
-#define I2S_SPEAKER_SERIAL_CLOCK GPIO_NUM_18
-#define I2S_SPEAKER_LEFT_RIGHT_CLOCK GPIO_NUM_19
-#define I2S_SPEAKER_SERIAL_DATA GPIO_NUM_5
-// Shutdown line if you have this wired up or -1 if you don't
-#define I2S_SPEAKER_SD_PIN GPIO_NUM_22
+    // Analog Microphone Settings - ADC1_CHANNEL_7 is GPIO35
+    #define ADC_MIC_CHANNEL ADC1_CHANNEL_7
 
-// transmit button
-#define GPIO_TRANSMIT_BUTTON 23
+    // speaker settings
+    #define USE_I2S_SPEAKER_OUTPUT
+    #define I2S_SPEAKER_SERIAL_CLOCK GPIO_NUM_18
+    #define I2S_SPEAKER_LEFT_RIGHT_CLOCK GPIO_NUM_23
+    #define I2S_SPEAKER_SERIAL_DATA GPIO_NUM_5
+    // Shutdown line if you have this wired up or -1 if you don't
+    #define I2S_SPEAKER_SD_PIN -1
+
+    // transmit button
+    #define GPIO_TRANSMIT_BUTTON 22
+
+#else
+
+    #define I2S_MIC_CHANNEL I2S_CHANNEL_FMT_ONLY_LEFT
+    // #define I2S_MIC_CHANNEL I2S_CHANNEL_FMT_ONLY_RIGHT
+    #define I2S_MIC_SERIAL_CLOCK GPIO_NUM_33
+    #define I2S_MIC_LEFT_RIGHT_CLOCK GPIO_NUM_32
+    #define I2S_MIC_SERIAL_DATA GPIO_NUM_36
+
+    // Analog Microphone Settings - ADC1_CHANNEL_7 is GPIO35
+    #define ADC_MIC_CHANNEL ADC1_CHANNEL_7
+
+    // speaker settings
+    #define USE_I2S_SPEAKER_OUTPUT
+    #define I2S_SPEAKER_SERIAL_CLOCK GPIO_NUM_33
+    #define I2S_SPEAKER_LEFT_RIGHT_CLOCK GPIO_NUM_32
+    #define I2S_SPEAKER_SERIAL_DATA GPIO_NUM_5
+    // Shutdown line if you have this wired up or -1 if you don't
+    #define I2S_SPEAKER_SD_PIN -1
+
+    // transmit button
+    #define GPIO_TRANSMIT_BUTTON 2
+#endif
 
 // Which LED pin do you want to use? TinyPico LED or the builtin LED of a generic ESP32 board?
 // Comment out this line to use the builtin LED of a generic ESP32 board
@@ -42,7 +67,7 @@
 
 // Which transport do you want to use? ESP_NOW or UDP?
 // comment out this line to use UDP
-// #define USE_ESP_NOW
+#define USE_ESP_NOW
 
 // On which wifi channel (1-11) should ESP-Now transmit? The default ESP-Now channel on ESP32 is channel 1
 #define ESP_NOW_WIFI_CHANNEL 1
